@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="{% url 'academics:branch_list' branch.discipline.slug %}" style="color: #64748b; text-decoration: none;"><i class="fas fa-arrow-left"></i> Back to Branches</a>
+</div>
+
+<h1 class="section-title">{{ branch.name }} - Select Year</h1>
+
+<div class="grid">
+    {% for year in years %}
+    <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem; color: var(--primary-color); margin-bottom: 1rem;"><i class="fas fa-calendar-alt"></i></div>
+        <h3>{{ year.name }}</h3>
+        <a href="{% url 'academics:subject_list' branch.slug year.year %}" class="btn" style="margin-top: 1rem;">View Subjects</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

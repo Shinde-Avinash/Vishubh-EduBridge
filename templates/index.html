@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if dashboard %}
+<div style="text-align: center; margin-bottom: 2rem;">
+    <h1 style="color: var(--primary-color);">Welcome back, {{ user.first_name }}!</h1>
+    <p style="color: #64748b;">Here are resources for <strong>{{ user.branch.name }} - {{ user.academic_year.name }}</strong></p>
+</div>
+
+<h2 class="section-title">Your Subjects</h2>
+
+<div class="grid">
+    {% for subject in subjects %}
+    <div class="card">
+        <h3>{{ subject.name }}</h3>
+        <p style="color: #64748b; font-size: 0.9rem;">{{ subject.code }}</p>
+        <p>{{ subject.description|truncatewords:20 }}</p>
+        <a href="{% url 'academics:subject_detail' subject.pk %}" class="btn" style="margin-top: 1rem; width: 100%; text-align: center; box-sizing: border-box;">View Materials</a>
+    </div>
+    {% empty %}
+    <p>No subjects found for your course. Please contact admin.</p>
+    {% endfor %}
+</div>
+
+{% else %}
+<div style="text-align: center; margin-bottom: 3rem; padding: 2rem 0;">
+    <h1 style="font-size: 3rem; background: linear-gradient(to right, #6366f1, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">
+        Your Academic Journey Starts Here
+    </h1>
+    <p style="font-size: 1.1rem; color: #64748b; max-width: 600px; margin: 0 auto;">
+        Discover structured study materials, career paths, and project ideas tailored to your discipline.
+    </p>
+</div>
+{% endif %}
+
+{% if not dashboard %}
+<h2 class="section-title">Select Your Discipline</h2>
+
+
+<div class="grid">
+    {% for discipline in disciplines %}
+    <div class="card">
+        <h3 style="color: var(--primary-color); margin-top: 0;">{{ discipline.name }}</h3>
+        <p>{{ discipline.description|default:"Explore branches and resources." }}</p>
+        <div style="margin-top: 1.5rem;">
+            {% for branch in discipline.branches.all|slice:":5" %}
+                <a href="{% url 'academics:year_list' branch.slug %}" class="btn" style="font-size: 0.8rem; padding: 0.4rem 0.8rem; margin-right: 0.5rem; margin-bottom: 0.5rem; background: #e2e8f0; color: #475569; display:inline-block;">{{ branch.name }}</a>
+            {% endfor %}
+        </div>
+        <div style="margin-top: 1rem; text-align: right;">
+             <a href="{% url 'academics:branch_list' discipline.slug %}" style="color: var(--secondary-color); text-decoration: none; font-weight: 600;">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

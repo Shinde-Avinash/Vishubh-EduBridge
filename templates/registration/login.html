@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+    <div class="card" style="width: 100%; max-width: 400px;">
+        <h2 style="text-align: center; color: var(--primary-color);">Login</h2>
+        <form method="post" style="display: flex; flex-direction: column; gap: 1rem;">
+            {% csrf_token %}
+            {% if form.errors %}
+                <p style="color: #ef4444; font-size: 0.9rem;">Invalid username or password.</p>
+            {% endif %}
+            
+            <div style="display: flex; flex-direction: column;">
+                <label for="id_username" style="font-weight: 500;">Username</label>
+                <input type="text" name="username" autofocus required id="id_username" style="padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 8px; margin-top: 0.5rem;">
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <label for="id_password" style="font-weight: 500;">Password</label>
+                <input type="password" name="password" required id="id_password" style="padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 8px; margin-top: 0.5rem;">
+            </div>
+
+            <button type="submit" class="btn" style="margin-top: 1rem; width: 100%;">Sign In</button>
+        </form>
+        <p style="text-align: center; margin-top: 1rem;">
+            Don't have an account? <a href="{% url 'accounts:register' %}" style="color: var(--primary-color);">Register here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

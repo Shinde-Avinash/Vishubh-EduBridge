@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Study Materials | Vishubh EduBridge{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="color: var(--primary-color);">
+        {% if current_discipline %}Managing {{ current_discipline.name }} Materials{% else %}Manage All Materials{% endif %}
+    </h1>
+    <a href="{% url 'dashboard:material_add' %}{% if current_discipline %}?discipline={{ current_discipline.id }}{% endif %}" class="btn"><i class="fas fa-plus"></i> Add Material</a>
+</div>
+
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="text-align: left; border-bottom: 2px solid #e2e8f0;">
+                <th style="padding: 1rem;">Title</th>
+                <th style="padding: 1rem;">Type</th>
+                <th style="padding: 1rem;">Subject</th>
+                <th style="padding: 1rem;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for material in materials %}
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 1rem; color: #334155;">
+                    {{ material.title }}
+                    {% if material.link %} <a href="{{ material.link }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>{% endif %}
+                </td>
+                <td style="padding: 1rem; color: #64748b;">{{ material.get_type_display }}</td>
+                <td style="padding: 1rem; color: #64748b;">{{ material.subject.name }}</td>
+                <td style="padding: 1rem;">
+                    <a href="{% url 'dashboard:material_edit' material.pk %}" style="color: var(--primary-color); margin-right: 1rem;"><i class="fas fa-edit"></i></a>
+                    <a href="{% url 'dashboard:material_delete' material.pk %}" style="color: #ef4444;"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="padding: 2rem; text-align: center; color: #64748b;">No materials found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if is_paginated %}
+    <div style="margin-top: 2rem; display: flex; justify-content: center;">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn">Previous</a>
+            {% endif %}
+
+            <span class="current" style="margin: 0 1rem;">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn">Next</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

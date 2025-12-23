@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="{% url 'home' %}" style="color: #64748b; text-decoration: none;"><i class="fas fa-arrow-left"></i> Back to Home</a>
+</div>
+
+<h1 class="section-title">Select Branch</h1>
+
+<div class="grid">
+    {% for branch in branches %}
+    <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem; color: var(--secondary-color); margin-bottom: 1rem;"><i class="fas fa-code-branch"></i></div>
+        <h3>{{ branch.name }}</h3>
+        <p>{{ branch.description|default:"Detailed curriculum and resources." }}</p>
+        <a href="{% url 'academics:year_list' branch.slug %}" class="btn" style="margin-top: 1rem;">Select Branch</a>
+    </div>
+    {% empty %}
+    <p>No branches found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

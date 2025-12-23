@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="{% url 'academics:subject_list' subject.branch.slug subject.academic_year.year %}" style="color: #64748b; text-decoration: none;"><i class="fas fa-arrow-left"></i> Back to Subjects</a>
+</div>
+
+<h1 style="color: var(--primary-color);">{{ subject.name }}</h1>
+<p style="font-size: 1.1rem; color: #64748b;">{{ subject.code }} | {{ subject.branch.name }} | {{ subject.academic_year.name }}</p>
+
+{% if syllabus_units %}
+    <h2 class="section-title" style="text-align: left;"><i class="fas fa-book-open"></i> Syllabus</h2>
+    <div class="grid" style="margin-bottom: 2rem;">
+        {% for unit in syllabus_units %}
+        <div class="card" style="border-left: 4px solid var(--primary-color);">
+            <h4 style="margin-top: 0; color: var(--primary-color);">{{ unit.title }}</h4>
+            <div style="white-space: pre-wrap; color: #334155; font-size: 0.95rem;">{{ unit.content }}</div>
+        </div>
+        {% endfor %}
+    </div>
+{% elif subject.syllabus_text %}
+    <div class="card" style="margin-bottom: 2rem;">
+        <h3><i class="fas fa-book-open"></i> Syllabus</h3>
+        <div style="white-space: pre-wrap; color: #334155;">{{ subject.syllabus_text }}</div>
+    </div>
+{% endif %}
+
+<h2 class="section-title" style="text-align: left;">Study Materials</h2>
+
+{% if materials %}
+<div class="grid">
+    {% for material in materials %}
+    <div class="card">
+        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+            <div style="font-size: 1.5rem; color: var(--secondary-color); margin-right: 1rem;">
+                {% if material.type == 'video' %}<i class="fas fa-video"></i>
+                {% elif material.type == 'book' %}<i class="fas fa-book"></i>
+                {% elif material.type == 'note' %}<i class="fas fa-sticky-note"></i>
+                {% elif material.type == 'syllabus' %}<i class="fas fa-file-alt"></i>
+                {% else %}<i class="fas fa-link"></i>{% endif %}
+            </div>
+            <div>
+                <h4 style="margin: 0;">{{ material.title }}</h4>
+                <small style="color: #94a3b8;">{{ material.get_type_display }}</small>
+            </div>
+        </div>
+        <p>{{ material.description }}</p>
+        {% if material.link %}
+            <a href="{{ material.link }}" target="_blank" class="btn" style="font-size: 0.9rem;">Open Link</a>
+        {% endif %}
+        {% if material.file %}
+            <a href="{{ material.file.url }}" target="_blank" class="btn" style="font-size: 0.9rem;">Download File</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card" style="text-align: center; color: #64748b;">
+    <p>No study materials available yet.</p>
+</div>
+{% endif %}
+
+{% endblock %}

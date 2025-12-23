@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="{% url 'academics:year_list' branch.slug %}" style="color: #64748b; text-decoration: none;"><i class="fas fa-arrow-left"></i> Back to Years</a>
+</div>
+
+<h1 class="section-title">{{ branch.name }} - {{ year.name }} Subjects</h1>
+
+<div class="grid">
+    {% for subject in subjects %}
+    <div class="card">
+        <h3>{{ subject.name }}</h3>
+        <p style="color: #64748b; font-size: 0.9rem;">{{ subject.code }}</p>
+        <p>{{ subject.description|truncatewords:20 }}</p>
+        <a href="{% url 'academics:subject_detail' subject.pk %}" class="btn" style="margin-top: 1rem; width: 100%; text-align: center; box-sizing: border-box;">View Materials</a>
+    </div>
+    {% empty %}
+    <p>No subjects found for this year.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard | Vishubh EduBridge{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <h1 style="color: var(--primary-color);">Admin Dashboard</h1>
+    <p style="color: #64748b;">Manage content and view statistics.</p>
+</div>
+
+<!-- Stats Grid -->
+<div class="grid" style="margin-bottom: 3rem;">
+    <div class="card" style="text-align: center;">
+        <h2 style="font-size: 3rem; color: var(--primary-color); margin: 0;">{{ total_students }}</h2>
+        <p style="color: #64748b;">Registered Students</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h2 style="font-size: 3rem; color: var(--secondary-color); margin: 0;">{{ total_subjects }}</h2>
+        <p style="color: #64748b;">Active Subjects</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h2 style="font-size: 3rem; color: #10b981; margin: 0;">{{ total_materials }}</h2>
+        <p style="color: #64748b;">Study Materials</p>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+    {% for disc in disciplines %}
+    <div class="card" style="display: flex; flex-direction: column; height: 100%;">
+        <div style="margin-bottom: 1rem;">
+            <h3 style="margin: 0; color: var(--primary-color);">{{ disc.name }}</h3>
+            <p style="color: #64748b; margin-top: 0.5rem;">{{ disc.description|truncatewords:10 }}</p>
+        </div>
+        
+        <div style="margin-top: auto; display: grid; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="{% url 'dashboard:subject_list' %}?discipline={{ disc.id }}" class="btn" style="flex: 1; text-align: center; font-size: 0.9rem; padding: 0.5rem;">
+                    <i class="fas fa-book"></i> Subjects
+                </a>
+                <a href="{% url 'dashboard:material_list' %}?discipline={{ disc.id }}" class="btn" style="flex: 1; text-align: center; font-size: 0.9rem; padding: 0.5rem;">
+                    <i class="fas fa-file-alt"></i> Materials
+                </a>
+            </div>
+            <a href="{% url 'dashboard:subject_add' %}?discipline={{ disc.id }}" class="btn" style="text-align: center; font-size: 0.9rem; padding: 0.5rem; background: #e2e8f0; color: #334155;">
+                <i class="fas fa-plus"></i> Add New Subject
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card" style="margin-top: 2rem;">
+    <h3><i class="fas fa-bolt"></i> Global Actions</h3>
+    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <a href="{% url 'dashboard:subject_list' %}" class="btn" style="background: #e2e8f0; color: #334155;">View All Subjects</a>
+        <a href="{% url 'dashboard:material_list' %}" class="btn" style="background: #e2e8f0; color: #334155;">View All Materials</a>
+    </div>
+</div>
+{% endblock %}

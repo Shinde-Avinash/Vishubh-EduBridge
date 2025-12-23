@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Material Form | Vishubh EduBridge{% endblock %}
+
+{% block content %}
+<style>
+    .form-input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid transparent;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+    .form-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        outline: none;
+        background: #fff;
+    }
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #475569;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    .form-section {
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255,255,255,0.6);
+    }
+</style>
+
+<div style="max-width: 900px; margin: 2rem auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h1 style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.2rem; margin-bottom: 0.5rem;">
+                {% if form.instance.pk %}Edit{% else %}Add{% endif %} Material
+            </h1>
+            <p style="color: #64748b;">Upload or link a new resource for {{ current_discipline.name|default:"students" }}</p>
+        </div>
+        <a href="{% url 'dashboard:material_list' %}" class="btn" style="background: white; color: #64748b; border: 1px solid #e2e8f0;">Cancel</a>
+    </div>
+    
+    <form method="post" enctype="multipart/form-data" class="form-section">
+        {% csrf_token %}
+        
+        <h4 style="color: var(--primary-color); margin-bottom: 1.5rem; border-bottom: 2px solid rgba(139, 92, 246, 0.1); padding-bottom: 0.5rem;">Resource Details</h4>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+            <div>
+                <label class="form-label">Title</label>
+                {{ form.title }}
+                 {% if form.title.errors %}<div style="color: #ef4444; font-size: 0.85rem; margin-top: 0.25rem;">{{ form.title.errors.0 }}</div>{% endif %}
+            </div>
+            <div>
+                <label class="form-label">Type</label>
+                {{ form.type }}
+                 {% if form.type.errors %}<div style="color: #ef4444; font-size: 0.85rem; margin-top: 0.25rem;">{{ form.type.errors.0 }}</div>{% endif %}
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 2rem;">
+            <label class="form-label">Subject</label>
+            {{ form.subject }}
+             {% if form.subject.errors %}<div style="color: #ef4444; font-size: 0.85rem; margin-top: 0.25rem;">{{ form.subject.errors.0 }}</div>{% endif %}
+        </div>
+
+        <h4 style="color: var(--primary-color); margin-bottom: 1.5rem; border-bottom: 2px solid rgba(139, 92, 246, 0.1); padding-bottom: 0.5rem; margin-top: 2rem;">Content Source</h4>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+            <div>
+                <label class="form-label"><i class="fas fa-link"></i> External Link</label>
+                {{ form.link }}
+            </div>
+            <div>
+                <label class="form-label"><i class="fas fa-file-upload"></i> Upload File</label>
+                {{ form.file }}
+            </div>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <label class="form-label">Description</label>
+            {{ form.description }}
+        </div>
+        
+        <div style="display: flex; gap: 1rem; border-top: 1px solid #e2e8f0; padding-top: 2rem;">
+            <button type="submit" class="btn" style="padding: 0.8rem 2.5rem; font-size: 1rem; box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.3);">Save Material</button>
+        </div>
+    </form>
+</div>
+
+<!-- Inject Premium Styles into Django Widgets -->
+<script>
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+        el.classList.add('form-input');
+        // Remove default bootstrap/crispy styling if conflicts size
+        el.style.maxWidth = '100%';
+    });
+</script>
+{% endblock %}
