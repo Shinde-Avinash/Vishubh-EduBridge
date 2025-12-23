@@ -1,8 +1,9 @@
-# Vishubh EduBridge
+## 🎓Vishubh EduBridge
 
 **Vishubh EduBridge** is a comprehensive educational platform designed to bridge the gap between students, faculty, and academic resources. It allows for the organized management of academic disciplines, branches, and subjects, while providing students with easy access to study materials, career guidance, and project ideas.
 
 ## Key Features
+<img width="802" height="352" alt="image" src="https://github.com/user-attachments/assets/f12cecad-100f-4c8b-a0d9-8ff7a8590f94" />
 
 ### 🎓 Academic Management
 - **Structured Learning**: Organized hierarchy of Disciplines (e.g., Engineering), Branches (e.g., CSE, IT), and Academic Years.
